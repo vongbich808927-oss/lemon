@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布商品 - 闲鱼</title>
+    <link rel="shortcut icon" href="//img.alicdn.com/tfs/TB19WObTNv1gK0jSZFFXXb0sXXa-144-144.png" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background-color: #ffe60f;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            margin-right: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ffe60f;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .image-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .image-upload:hover {
+            border-color: #ffe60f;
+            background-color: #fffef0;
+        }
+
+        .image-upload input {
+            display: none;
+        }
+
+        .image-preview {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .image-preview-item {
+            position: relative;
+            width: 100%;
+            padding-top: 100%;
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .image-preview-item img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #ffe60f;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background-color: #ffed4a;
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            background-color: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .required {
+            color: #ff4757;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center;">
+                <a href="index.html" class="back-btn">← 返回</a>
+                <div class="logo">
+                    <span>🐟</span>
+                    <span>发布商品</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-card">
+            <h2 class="form-title">发布闲置商品</h2>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <form id="publishForm">
+                <div class="form-group">
+                    <label for="title">商品标题 <span class="required">*</span></label>
+                    <input type="text" id="title" name="title" required placeholder="例如：iPhone 12 Pro 128G 深空灰">
+                </div>
+
+                <div class="form-group">
+                    <label for="price">价格（元） <span class="required">*</span></label>
+                    <input type="number" id="price" name="price" required min="0" step="0.01" placeholder="0.00">
+                </div>
+
+                <div class="form-group">
+                    <label for="category">分类</label>
+                    <select id="category" name="category">
+                        <option value="">请选择分类</option>
+                        <option value="手机/数码/电脑">手机 / 数码 / 电脑</option>
+                        <option value="服饰/鞋包/运动">服饰 / 鞋包 / 运动</option>
+                        <option value="母婴/玩具/童装">母婴 / 玩具 / 童装</option>
+                        <option value="家具/家居/家装">家具 / 家居 / 家装</option>
+                        <option value="美妆/护肤/香水">美妆 / 护肤 / 香水</option>
+                        <option value="食品/保健/滋补">食品 / 保健 / 滋补</option>
+                        <option value="图书/音像/文具">图书 / 音像 / 文具</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="condition">成色</label>
+                    <select id="condition" name="condition">
+                        <option value="全新">全新</option>
+                        <option value="九成新">九成新</option>
+                        <option value="八成新">八成新</option>
+                        <option value="七成新">七成新</option>
+                        <option value="六成新及以下">六成新及以下</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="location">所在地区</label>
+                    <input type="text" id="location" name="location" placeholder="例如：上海">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">商品描述</label>
+                    <textarea id="description" name="description" placeholder="详细描述商品的情况、使用时间、是否有瑕疵等..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>商品图片（最多5张）</label>
+                    <div class="image-upload" id="imageUpload">
+                        <input type="file" id="imageInput" accept="image/*" multiple>
+                        <div>点击或拖拽上传图片</div>
+                    </div>
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+
+                <button type="submit" class="btn" id="publishBtn">发布商品</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        // 检查登录状态
+        if (!getToken()) {
+            alert('请先登录');
+            window.location.href = 'login.html';
+        }
+
+        const imageInput = document.getElementById('imageInput');
+        const imageUpload = document.getElementById('imageUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        let selectedImages = [];
+
+        // 图片上传
+        imageUpload.addEventListener('click', () => {
+            imageInput.click();
+        });
+
+        imageInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            if (selectedImages.length + files.length > 5) {
+                alert('最多只能上传5张图片');
+                return;
+            }
+
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        selectedImages.push({
+                            file: file,
+                            preview: e.target.result
+                        });
+                        updateImagePreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+
+        function updateImagePreview() {
+            imagePreview.innerHTML = '';
+            selectedImages.forEach((image, index) => {
+                const item = document.createElement('div');
+                item.className = 'image-preview-item';
+                item.innerHTML = `
+                    <img src="${image.preview}" alt="预览">
+                    <button type="button" class="remove-btn" data-index="${index}">×</button>
+                `;
+                imagePreview.appendChild(item);
+            });
+
+            // 绑定删除按钮
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.dataset.index);
+                    selectedImages.splice(index, 1);
+                    updateImagePreview();
+                });
+            });
+        }
+
+        // 提交表单
+        document.getElementById('publishForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById('title').value;
+            const price = document.getElementById('price').value;
+            const category = document.getElementById('category').value;
+            const condition = document.getElementById('condition').value;
+            const location = document.getElementById('location').value;
+            const description = document.getElementById('description').value;
+
+            if (!title || !price) {
+                alert('请填写商品标题和价格');
+                return;
+            }
+
+            const errorMessage = document.getElementById('errorMessage');
+            const publishBtn = document.getElementById('publishBtn');
+
+            errorMessage.classList.remove('show');
+            publishBtn.disabled = true;
+            publishBtn.textContent = '发布中...';
+
+            try {
+                const imageFiles = selectedImages.map(img => img.file);
+                await productAPI.publishProduct({
+                    title,
+                    price,
+                    category,
+                    condition,
+                    location,
+                    description
+                }, imageFiles);
+
+                alert('商品发布成功！');
+                window.location.href = 'index.html';
+            } catch (error) {
+                errorMessage.textContent = error.message || '发布失败，请重试';
+                errorMessage.classList.add('show');
+                publishBtn.disabled = false;
+                publishBtn.textContent = '发布商品';
+            }
+        });
+    </script>
+</body>
+</html>
+

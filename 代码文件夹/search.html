@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索结果 - 闲鱼</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header-main {
+            background-color: #ffe60f;
+            padding: 8px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .logo-link {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 20px;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid #333;
+            border-radius: 25px;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .search-btn {
+            background: #ffe60f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .filter-bar {
+            background: white;
+            padding: 15px 20px;
+            margin: 20px auto;
+            max-width: 1200px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .filter-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .filter-item.active {
+            background-color: #fff8f4;
+            color: #ffe60f;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #FF4757;
+            margin-bottom: 8px;
+        }
+
+        .product-title {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            line-height: 1.4;
+            min-height: 40px;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-main">
+        <div class="header-container">
+            <div class="header-top">
+                <a href="index.html" class="logo-link">闲鱼</a>
+                <div class="search-container">
+                    <form class="search-form" onsubmit="return false;">
+                        <input type="text" class="search-input" id="searchInput" placeholder="搜索商品">
+                        <button type="submit" class="search-btn">搜索</button>
+                    </form>
+                </div>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <a href="profile.html" style="color: #333; text-decoration: none;">lemon</a>
+                    <a href="orders.html" style="color: #333; text-decoration: none;">订单</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="filter-bar">
+        <div class="filter-item active">综合</div>
+        <div class="filter-item">新降价</div>
+        <div class="filter-item">新发布</div>
+        <div class="filter-item">价格</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="number" placeholder="¥" style="width: 80px; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+            <span>-</span>
+            <input type="number" placeholder="¥" style="width: 80px; padding: 6px; border: 1px solid #ddd; border-radius: 4px;">
+        </div>
+        <div class="filter-item">区域</div>
+        <div style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+            <button style="padding: 6px 12px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer;">&lt;</button>
+            <span>1/50</span>
+            <button style="padding: 6px 12px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer;">&gt;</button>
+        </div>
+    </div>
+
+    <div class="filter-bar" style="margin-top: 10px;">
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox">
+            <span>个人闲置</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox">
+            <span>验货宝</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox">
+            <span>验号担保</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox">
+            <span>包邮</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox">
+            <span>超赞鱼小铺</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox">
+            <span>全新</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox">
+            <span>严选</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
+            <input type="checkbox">
+            <span>转卖</span>
+        </label>
+    </div>
+
+    <div class="container">
+        <div class="product-grid" id="productGrid">
+            <!-- 商品将通过JS加载 -->
+        </div>
+    </div>
+
+    <script>
+        // 从URL获取搜索关键词
+        const urlParams = new URLSearchParams(window.location.search);
+        const keyword = urlParams.get('q') || '手机';
+        document.getElementById('searchInput').value = keyword;
+
+        // 加载商品
+        const sampleProducts = [
+            { id: 1, title: "OPPO A1 Pro 5G 8+256G 骁龙695 6.7寸屏", price: 549, likes: 11, location: "上海", image: "https://img.alicdn.com/imgextra/i1/O1CN01GXrI1R25menQwvGkD_!!6000000007569-2-tps-480-480.png" },
+            { id: 2, title: "红米15r5g手机 运营商送的 到手已拆封未使用", price: 500, likes: 11, location: "北京", image: "https://img.alicdn.com/imgextra/i1/O1CN01GXrI1R25menQwvGkD_!!6000000007569-2-tps-480-480.png" },
+            { id: 3, title: "Vivo X90 个人闲置 成色9成新 功能都正常", price: 550, likes: 8, location: "河南", image: "https://img.alicdn.com/imgextra/i1/O1CN01GXrI1R25menQwvGkD_!!6000000007569-2-tps-480-480.png" },
+            { id: 4, title: "vivo X100s 16+512G 国行 可当备用机", price: 1820, likes: 15, location: "北京", image: "https://img.alicdn.com/imgextra/i1/O1CN01GXrI1R25menQwvGkD_!!6000000007569-2-tps-480-480.png" },
+            { id: 5, title: "oppoReno6pro+12+256 87成新", price: 501, likes: 5, location: "广东", image: "https://img.alicdn.com/imgextra/i1/O1CN01GXrI1R25menQwvGkD_!!6000000007569-2-tps-480-480.png" },
+            { id: 6, title: "验货宝苹果iPhone 11 Pro 64G 暗夜绿 韩版", price: 500, likes: 2, location: "山东", image: "https://img.alicdn.com/imgextra/i1/O1CN01GXrI1R25menQwvGkD_!!6000000007569-2-tps-480-480.png" }
+        ];
+
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = sampleProducts.map(product => `
+            <a href="detail.html?id=${product.id}" class="product-card">
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.title}">
+                </div>
+                <div class="product-info">
+                    <div class="product-price">¥${product.price}</div>
+                    <div class="product-title">${product.title}</div>
+                    <div class="product-meta">
+                        <span>${product.likes}人想要</span>
+                        <span>${product.location}</span>
+                    </div>
+                </div>
+            </a>
+        `).join('');
+    </script>
+</body>
+</html>
+
+
+
+
+
+

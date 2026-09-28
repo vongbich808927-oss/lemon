@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 闲鱼</title>
+    <link rel="shortcut icon" href="//img.alicdn.com/tfs/TB19WObTNv1gK0jSZFFXXb0sXXa-144-144.png" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .register-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ffe60f;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #ffe60f;
+            color: #333;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #ffed4a;
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .switch-form {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .switch-form a {
+            color: #ffe60f;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            background-color: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background-color: #efe;
+            color: #3c3;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← 返回首页</a>
+
+    <div class="register-container">
+        <div class="logo">
+            <h1>🐟 闲鱼</h1>
+            <p>加入闲鱼，开启二手交易之旅</p>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" required autocomplete="new-password" minlength="6">
+            </div>
+
+            <div class="form-group">
+                <label for="email">邮箱（可选）</label>
+                <input type="email" id="email" name="email" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">手机号（可选，模拟环境无需真实手机号）</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" placeholder="可选，模拟环境可随意填写">
+            </div>
+
+            <div class="form-group">
+                <label for="avatar">头像（可选）</label>
+                <input type="file" id="avatar" name="avatar" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn" id="registerBtn">注册</button>
+        </form>
+
+        <div class="switch-form">
+            已有账号？<a href="login.html">立即登录</a>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const avatar = document.getElementById('avatar').files[0];
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+            const registerBtn = document.getElementById('registerBtn');
+
+            errorMessage.classList.remove('show');
+            successMessage.classList.remove('show');
+            registerBtn.disabled = true;
+            registerBtn.textContent = '注册中...';
+
+            try {
+                await userAPI.register(username, password, email || null, phone || null, avatar);
+                successMessage.textContent = '注册成功！正在跳转...';
+                successMessage.classList.add('show');
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } catch (error) {
+                errorMessage.textContent = error.message || '注册失败，请重试';
+                errorMessage.classList.add('show');
+                registerBtn.disabled = false;
+                registerBtn.textContent = '注册';
+            }
+        });
+
+        // 如果已登录，重定向到首页
+        if (getToken()) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
+

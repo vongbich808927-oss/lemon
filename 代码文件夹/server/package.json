@@ -1,0 +1,26 @@
+{
+  "name": "xianyu-server",
+  "version": "1.0.0",
+  "description": "闲鱼全栈项目 - 后端",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "init-db": "node init-db.js"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.6.1",
+    "sequelize": "^6.35.0",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
